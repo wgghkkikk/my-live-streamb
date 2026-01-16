@@ -1,12 +1,12 @@
-name: Final King Victory
+name: Karbala_Official_Live
 on:
   workflow_dispatch:
 jobs:
-  stream:
+  streaming:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup
-        run: sudo apt update && sudo apt install -y ffmpeg
-      - name: Start Live
+      - name: Setup_FFmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - name: Start_Holy_Live
         run: |
-          ffmpeg -re -i "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" -c copy -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
+          ffmpeg -re -i "https://shia.live/hls/imam-hussain.m3u8" -c:v libx264 -preset ultrafast -b:v 2500k -pix_fmt yuv420p -g 60 -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
