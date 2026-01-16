@@ -1,1 +1,19 @@
-
+name: YouTube Live Stream
+on:
+  workflow_dispatch:
+jobs:
+  streaming:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          pip install yt-dlp requests
+      - name: Start Live
+        env:
+          STREAM_URL: "https://www.youtube.com/watch?v=0_u_XW93uE0"
+          STREAM_KEY: "q12g-s6wc-0y03-0ua5-6e6p"
+        run: |
+          URL=$(yt-dlp -f b -g "$STREAM_URL")
+          ffmpeg -re -i "$URL" -c:v libx264 -preset veryfast -b:v 2500k -maxrate 2500k -bufsize 5000k -pix_fmt yuv420p -g 60 -c:a aac -b:a 128k -ar 44100 -f flv "rtmp://a.rtmp.youtube.com/live2/$STREAM_KEY"
