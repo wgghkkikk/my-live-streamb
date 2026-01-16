@@ -1,12 +1,16 @@
-name: Karbala Victory
+name: Karbala Final Victory
 on:
   workflow_dispatch:
 jobs:
   streaming:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup
-        run: sudo apt update && sudo apt install -y ffmpeg
+      - name: Install Tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          pip install yt-dlp
       - name: Start Live
         run: |
-          ffmpeg -re -i "https://ia801509.us.archive.org/32/items/karbala-live/karbala.mp4" -c:v libx264 -preset ultrafast -b:v 2500k -pix_fmt yuv420p -g 60 -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
+          URL=$(yt-dlp -f "best[ext=mp4]/best" -g "https://www.youtube.com/watch?v=0_u_XW93uE0")
+          ffmpeg -re -i "$URL" -c:v libx264 -preset ultrafast -b:v 2000k -pix_fmt yuv420p -g 60 -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
