@@ -13,4 +13,4 @@ jobs:
       - name: Start Live
         run: |
           URL=$(yt-dlp -f b -g "https://www.youtube.com/watch?v=0_u_XW93uE0")
-          ffmpeg -re -i "$URL" -c copy -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
+          ffmpeg -re -i "$URL" -c copy -f flv "rtmp://a.rtmp.youtube.com/live2/Wd4c-4hmk-mx5u-hjfz-fx9h"
