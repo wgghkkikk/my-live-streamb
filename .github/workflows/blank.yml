@@ -12,5 +12,5 @@ jobs:
           pip install yt-dlp
       - name: Start Live
         run: |
-          URL=$(yt-dlp -f b -g "https://www.youtube.com/watch?v=0_u_XW93uE0")
-          ffmpeg -re -i "$URL" -c copy -f flv "rtmp://a.rtmp.youtube.com/live2/Wd4c-4hmk-mx5u-hjfz-fx9h"
+          URL=$(yt-dlp -f b -g "https://www.youtube.com/watch?v=jNQXAC9IVRw")
+          ffmpeg -re -i "$URL" -c:v libx264 -preset veryfast -b:v 2500k -f flv "rtmp://a.rtmp.youtube.com/live2/Wd4c-4hmk-mx5u-hjfz-fx9h"
