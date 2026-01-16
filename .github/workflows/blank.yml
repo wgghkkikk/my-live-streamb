@@ -1,4 +1,4 @@
-name: Karbala Live Stream
+name: Karbala Video Stream
 on:
   workflow_dispatch:
 jobs:
@@ -12,4 +12,5 @@ jobs:
           pip install yt-dlp
       - name: Start Live
         run: |
-          ffmpeg -re -i "$(yt-dlp -f b -g Https://www.youtube.com/live/Ehey2f0wvwQ?si=rhKS5OY8ada59BC2)" -c copy -f flv "rtmp://a.rtmp.youtube.com/live2/Wd4c-4hmk-mx5u-hjfz-fx9h"
+          URL=$(yt-dlp -f b -g "https://www.youtube.com/watch?v=0_u_XW93uE0")
+          ffmpeg -re -i "$URL" -c:v libx264 -preset veryfast -b:v 2500k -pix_fmt yuv420p -g 60 -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/Wd4c-4hmk-mx5u-hjfz-fx9h"
