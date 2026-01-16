@@ -1,4 +1,4 @@
-name: King Never Gives Up
+name: Final King Stream
 on:
   workflow_dispatch:
 jobs:
@@ -9,11 +9,9 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y ffmpeg
-          pip install yt-dlp
+          pip install --upgrade yt-dlp
       - name: Start Live
         run: |
-          while true; do
-            URL=$(yt-dlp -f "bestvideo+bestaudio/best" -g "https://www.youtube.com/watch?v=0_u_XW93uE0")
-            ffmpeg -re -i "$URL" -c:v libx264 -preset veryfast -b:v 2500k -pix_fmt yuv420p -g 60 -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
-            sleep 5
-          done
+          yt-dlp -f b -g "https://www.youtube.com/watch?v=0_u_XW93uE0" > vid.txt || echo "https://www.youtube.com/watch?v=0_u_XW93uE0" > vid.txt
+          URL=$(cat vid.txt)
+          ffmpeg -re -i "$URL" -c:v libx264 -preset veryfast -b:v 2500k -pix_fmt yuv420p -g 60 -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
