@@ -1,12 +1,12 @@
-name: Karbala_Final_Success
+name: Karbala_Final_King
 on:
   workflow_dispatch:
 jobs:
   streaming:
     runs-on: ubuntu-latest
     steps:
-      - name: Install Tools
+      - name: Setup
         run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - name: Start_Live
         run: |
-          ffmpeg -re -i "https://ia801509.us.archive.org/32/items/karbala-live/karbala.mp4" -c:v libx264 -preset ultrafast -b:v 2000k -pix_fmt yuv420p -g 60 -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
+          ffmpeg -re -i "https://ia801509.us.archive.org/32/items/karbala-live/karbala.mp4" -c:v libx264 -preset ultrafast -b:v 2000k -pix_fmt yuv420p -g 60 -c:a aac -b:a 128k -f flv "rtmp://b.rtmp.youtube.com/live2?backup=1/q12g-s6wc-0y03-0ua5-6e6p"
