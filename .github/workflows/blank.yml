@@ -1,12 +1,12 @@
-name: Karbala_Holy_Victory
+name: Karbala_Official_Success
 on:
   workflow_dispatch:
 jobs:
   streaming:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup
+      - name: Install
         run: sudo apt-get update && sudo apt-get install -y ffmpeg
-      - name: Start_Holy_Live
+      - name: Start_Live
         run: |
-          ffmpeg -re -i "https://shia.live/hls/imam-hussain.m3u8" -c:v libx264 -preset ultrafast -b:v 2500k -pix_fmt yuv420p -g 60 -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
+          ffmpeg -re -user_agent "Mozilla/5.0" -i "https://shia.live/hls/imam-hussain.m3u8" -c:v libx264 -preset ultrafast -b:v 2000k -pix_fmt yuv420p -g 60 -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
