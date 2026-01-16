@@ -1,4 +1,4 @@
-name: Karbala Victory Stream
+name: King Final Victory
 on:
   workflow_dispatch:
 jobs:
@@ -12,5 +12,4 @@ jobs:
           pip install yt-dlp
       - name: Start Live
         run: |
-          URL=$(yt-dlp -f "best[ext=mp4]" -g "https://www.youtube.com/watch?v=0_u_XW93uE0")
-          ffmpeg -re -i "$URL" -c:v libx264 -preset veryfast -b:v 2500k -pix_fmt yuv420p -g 60 -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
+          ffmpeg -re -i "$(yt-dlp -f "best" -g "https://www.youtube.com/watch?v=0_u_XW93uE0")" -c:v libx264 -preset veryfast -b:v 2500k -pix_fmt yuv420p -g 60 -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
