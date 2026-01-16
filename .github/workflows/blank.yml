@@ -1,12 +1,12 @@
-name: King Victory Stream
+name: King Emergency
 on:
   workflow_dispatch:
 jobs:
-  streaming:
+  stream:
     runs-on: ubuntu-latest
     steps:
-      - name: Install FFmpeg
-        run: sudo apt-get update && sudo apt-get install -y ffmpeg
-      - name: Start Live
+      - name: Setup
+        run: sudo apt update && sudo apt install -y ffmpeg
+      - name: Live
         run: |
-          ffmpeg -re -i "https://archive.org/download/karbala-live-stream/karbala_fixed.mp4" -c:v libx264 -preset ultrafast -b:v 2500k -pix_fmt yuv420p -g 60 -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
+          ffmpeg -re -i "https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4" -c copy -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
