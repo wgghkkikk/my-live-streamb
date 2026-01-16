@@ -1,12 +1,12 @@
-name: King Final Victory
+name: Final King Victory
 on:
   workflow_dispatch:
 jobs:
-  streaming:
+  stream:
     runs-on: ubuntu-latest
     steps:
       - name: Setup
-        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+        run: sudo apt update && sudo apt install -y ffmpeg
       - name: Start Live
         run: |
-          ffmpeg -re -i "https://archive.org/download/sample-video-2026/sample_file.mp4" -c:v libx264 -preset ultrafast -b:v 2000k -pix_fmt yuv420p -g 60 -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
+          ffmpeg -re -i "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" -c copy -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
