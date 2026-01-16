@@ -1,4 +1,4 @@
-name: Karbala Video Stream
+name: Fixed Video Stream
 on:
   workflow_dispatch:
 jobs:
