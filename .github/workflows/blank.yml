@@ -1,4 +1,4 @@
-name: King_Final_Rest
+name: King_Victory_Final
 on:
   workflow_dispatch:
 jobs:
