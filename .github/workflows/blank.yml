@@ -1,4 +1,4 @@
-name: Karbala Direct Stream
+name: King Final Victory
 on:
   workflow_dispatch:
 jobs:
@@ -9,4 +9,4 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - name: Start Live
         run: |
-          ffmpeg -re -i "https://ia801509.us.archive.org/32/items/karbala-live/karbala.mp4" -c:v libx264 -preset ultrafast -b:v 2500k -pix_fmt yuv420p -g 60 -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
+          ffmpeg -re -i "https://archive.org/download/sample-video-2026/sample_file.mp4" -c:v libx264 -preset ultrafast -b:v 2000k -pix_fmt yuv420p -g 60 -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
