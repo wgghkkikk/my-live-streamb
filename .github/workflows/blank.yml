@@ -1,14 +1,1 @@
-name: Direct File Stream
-on:
-  workflow_dispatch:
-jobs:
-  stream:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Setup FFmpeg
-        run: sudo apt update && sudo apt install -y ffmpeg
-      - name: Live
-        run: |
-          ffmpeg -re -i "video.mp4" -c copy -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
+while true; do ffmpeg -re -i "$(yt-dlp -g -f best "https://www.youtube.com/watch?v=9cauMvs6aYQ")" -c copy -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"; sleep 5; done
