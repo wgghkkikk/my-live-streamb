@@ -4,5 +4,5 @@ jobs:
   stream:
     runs-on: ubuntu-latest
     steps:
-      - name: Start
+      - name: Start Karbala Stream
         run: docker run --rm jrottenberg/ffmpeg -re -i "https://ia801509.us.archive.org/32/items/karbala-live/karbala.mp4" -c copy -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
