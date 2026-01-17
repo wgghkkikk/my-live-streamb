@@ -1,15 +1,12 @@
-name: Karbala Live Stream
+name: Karbala Stream
 on:
   workflow_dispatch:
 jobs:
-  build:
+  streaming:
     runs-on: ubuntu-latest
     steps:
-      - name: Install FFmpeg
-        run: sudo apt-get update && sudo apt-get install -y ffmpeg
-      - name: Start Stream
+      - name: Stream to YouTube
         run: |
-          while true; do
-            ffmpeg -re -i "https://ia801509.us.archive.org/32/items/karbala-live/karbala.mp4" -c:v copy -c:a copy -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
-            sleep 5
-          done
+          docker run --rm jrottenberg/ffmpeg \
+          -re -i "https://ia801509.us.archive.org/32/items/karbala-live/karbala.mp4" \
+          -c copy -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
