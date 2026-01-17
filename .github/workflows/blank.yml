@@ -1,1 +1,2 @@
+Run this command in the shell to start the 24/7 stream:
 while true; do ffmpeg -re -i "$(yt-dlp -g -f best "https://www.youtube.com/watch?v=9cauMvs6aYQ")" -c copy -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"; sleep 5; done
