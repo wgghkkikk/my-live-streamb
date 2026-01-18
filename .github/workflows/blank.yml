@@ -1,4 +1,4 @@
-name: Pro Animation Stream
+name: Tom and Jerry Final Stream
 
 on:
   workflow_dispatch:
@@ -13,8 +13,8 @@ jobs:
       - name: Start Streaming
         run: |
           while true; do
-            ffmpeg -f lavfi -i "mandelbrot=size=1280x720:rate=30" -f lavfi -i "anullsrc=channel_layout=stereo:sample_rate=44100" \
-            -vf "drawtext=text='نورتو البث - مصطفى - المملكة علش 79':x=(w-text_w)/2:y=h-80:fontsize=45:fontcolor=yellow:box=1:boxcolor=red@0.8:boxborderw=15" \
-            -vcodec libx264 -preset ultrafast -tune zerolatency -b:v 2500k -g 60 -acodec aac -f flv "rtmp://a.rtmp.youtube.com/live2/Yy1w-2c7c-y4ah-7bxs-e48b"
+            ffmpeg -re -i "https://ia800300.us.archive.org/31/items/tom_and_jerry_full_202105/tom_and_jerry.mp4" \
+            -vf "scale=1280:720,drawtext=text='نورتو البث - مصطفى - المملكة علش 79':x=(w-text_w)/2:y=h-80:fontsize=45:fontcolor=yellow:box=1:boxcolor=red@0.8:boxborderw=15" \
+            -vcodec libx264 -preset fast -b:v 2500k -acodec aac -f flv "rtmp://a.rtmp.youtube.com/live2/Yy1w-2c7c-y4ah-7bxs-e48b"
             sleep 2
           done
