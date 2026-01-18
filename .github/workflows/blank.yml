@@ -15,7 +15,7 @@ jobs:
       - name: Start Streaming
         run: |
           while true; do
-            ffmpeg -re -i "https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/bolt-detection.mp4" \
-            -vf "scale=1280:720,drawbox=y=ih-80:color=red@0.8:width=iw:height=80:t=fill,drawtext=text='نورتو البث - مصطفى - المملكة علش 79':x=(w-text_w)/2:y=h-55:fontsize=35:fontcolor=#FFD700" \
-            -vcodec libx264 -preset veryfast -b:v 2500k -acodec aac -f flv "rtmp://a.rtmp.youtube.com/live2/ucs5-xsp1-zw6m-094a-48ck"
+            ffmpeg -re -i "https://www.w3schools.com/html/mov_bbb.mp4" \
+            -vf "scale=1280:720,drawtext=text='نورتو البث - مصطفى - المملكة علش 79':x=(w-text_w)/2:y=h-80:fontsize=45:fontcolor=#FFD700:box=1:boxcolor=red@0.8:boxborderw=10" \
+            -vcodec libx264 -preset fast -b:v 2500k -acodec aac -f flv "rtmp://a.rtmp.youtube.com/live2/ucs5-xsp1-zw6m-094a-48ck"
           done
