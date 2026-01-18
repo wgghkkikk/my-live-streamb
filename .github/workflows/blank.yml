@@ -1,4 +1,4 @@
-name: Tom and Jerry Final Stream
+name: Tom and Jerry Stable
 
 on:
   workflow_dispatch:
@@ -13,8 +13,7 @@ jobs:
       - name: Start Streaming
         run: |
           while true; do
-            ffmpeg -re -i "https://ia800300.us.archive.org/31/items/tom_and_jerry_full_202105/tom_and_jerry.mp4" \
-            -vf "scale=1280:720,drawtext=text='نورتو البث - مصطفى - المملكة علش 79':x=(w-text_w)/2:y=h-80:fontsize=45:fontcolor=yellow:box=1:boxcolor=red@0.8:boxborderw=15" \
-            -vcodec libx264 -preset fast -b:v 2500k -acodec aac -f flv "rtmp://a.rtmp.youtube.com/live2/Yy1w-2c7c-y4ah-7bxs-e48b"
-            sleep 2
+            ffmpeg -re -i "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" \
+            -vf "scale=1280:720,drawtext=text='نورتو البث - مصطفى - المملكة علش 79':x=(w-text_w)/2:y=h-80:fontsize=45:fontcolor=yellow:box=1:boxcolor=red@0.8" \
+            -vcodec libx264 -preset ultrafast -b:v 2000k -acodec aac -f flv "rtmp://a.rtmp.youtube.com/live2/Yy1w-2c7c-y4ah-7bxs-e48b"
           done
