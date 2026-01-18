@@ -1,11 +1,21 @@
-name: Live
+name: Animals Live Stream
+
 on:
   workflow_dispatch:
+  push:
+    branches: [ main ]
+
 jobs:
-  run:
+  stream:
     runs-on: ubuntu-latest
     steps:
-      - name: Stream
+      - name: Install FFmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Start Streaming
         run: |
-          sudo apt-get update && sudo apt-get install -y ffmpeg
-          ffmpeg -re -i "https://ia801509.us.archive.org/32/items/karbala-live/karbala.mp4" -c:v libx264 -preset ultrafast -b:v 600k -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
+          while true; do
+            ffmpeg -re -i "https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/bolt-detection.mp4" \
+            -vf "scale=1280:720,drawbox=y=ih-80:color=red@0.8:width=iw:height=80:t=fill,drawtext=text='نورتو البث - مصطفى - المملكة علش 79':x=(w-text_w)/2:y=h-55:fontsize=35:fontcolor=#FFD700" \
+            -vcodec libx264 -preset veryfast -b:v 2500k -acodec aac -f flv "rtmp://a.rtmp.youtube.com/live2/ucs5-xsp1-zw6m-094a-48ck"
+          done
