@@ -1,4 +1,4 @@
-name: Stable Pro Stream
+name: Pro Star Stream
 
 on:
   workflow_dispatch:
@@ -13,7 +13,7 @@ jobs:
       - name: Start Streaming
         run: |
           while true; do
-            ffmpeg -f lavfi -i "testsrc=size=1280x720:rate=30" -f lavfi -i "anullsrc=channel_layout=stereo:sample_rate=44100" \
+            ffmpeg -f lavfi -i "cellauto=size=1280x720:rate=30" -f lavfi -i "anullsrc=channel_layout=stereo:sample_rate=44100" \
             -vf "drawtext=text='نورتو البث - مصطفى - المملكة علش 79':x=(w-text_w)/2:y=h-80:fontsize=45:fontcolor=yellow:box=1:boxcolor=red@0.8:boxborderw=15" \
             -vcodec libx264 -preset ultrafast -tune zerolatency -b:v 2500k -g 60 -acodec aac -f flv "rtmp://a.rtmp.youtube.com/live2/Yy1w-2c7c-y4ah-7bxs-e48b"
             sleep 2
