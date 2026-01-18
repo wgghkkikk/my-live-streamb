@@ -1,4 +1,4 @@
-name: SpiderMan Full Stream
+name: Pure Clean Stream
 
 on:
   workflow_dispatch:
@@ -13,7 +13,8 @@ jobs:
       - name: Start Streaming
         run: |
           while true; do
-            ffmpeg -re -i "https://archive.org/download/spider-man-1-2002_202201/Spider-Man%201%20%282002%29.mp4" \
-            -vf "scale=854:480,drawtext=text='نورتو البث - مصطفى - المملكة علش 79':x=(w-text_w)/2:y=h-50:fontsize=30:fontcolor=yellow:box=1:boxcolor=red@0.8" \
-            -vcodec libx264 -preset ultrafast -b:v 1500k -acodec aac -f flv "rtmp://a.rtmp.youtube.com/live2/Yy1w-2c7c-y4ah-7bxs-e48b"
+            ffmpeg -f lavfi -i "color=c=black:s=1280x720:rate=30" -f lavfi -i "anullsrc=channel_layout=stereo:sample_rate=44100" \
+            -vf "drawtext=text='نورتو البث - مصطفى - المملكة علش 79':x=(w-text_w)/2:y=h-80:fontsize=45:fontcolor=yellow:box=1:boxcolor=red@0.8:boxborderw=15" \
+            -vcodec libx264 -preset ultrafast -tune zerolatency -b:v 1500k -g 60 -acodec aac -f flv "rtmp://a.rtmp.youtube.com/live2/Yy1w-2c7c-y4ah-7bxs-e48b"
+            sleep 2
           done
