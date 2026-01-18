@@ -1,11 +1,20 @@
-name: Live
+name: Stable Pro Stream
+
 on:
   workflow_dispatch:
+
 jobs:
-  run:
+  stream:
     runs-on: ubuntu-latest
     steps:
-      - name: Stream
+      - name: Install FFmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Start Streaming
         run: |
-          sudo apt update && sudo apt install ffmpeg -y
-          ffmpeg -re -i "https://ia801509.us.archive.org/32/items/karbala-live/karbala.mp4" -c:v libx264 -preset ultrafast -b:v 600k -maxrate 600k -bufsize 1200k -c:a aac -b:a 128k -ar 44100 -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
+          while true; do
+            ffmpeg -f lavfi -i "testsrc=size=1280x720:rate=30" -f lavfi -i "anullsrc=channel_layout=stereo:sample_rate=44100" \
+            -vf "drawtext=text='نورتو البث - مصطفى - المملكة علش 79':x=(w-text_w)/2:y=h-80:fontsize=45:fontcolor=yellow:box=1:boxcolor=red@0.8:boxborderw=15" \
+            -vcodec libx264 -preset ultrafast -tune zerolatency -b:v 2500k -g 60 -acodec aac -f flv "rtmp://a.rtmp.youtube.com/live2/Yy1w-2c7c-y4ah-7bxs-e48b"
+            sleep 2
+          done
