@@ -7,11 +7,17 @@ jobs:
   stream:
     runs-on: ubuntu-latest
     steps:
-      - name: Stream
+      - name: Install Tools
         run: |
-          sudo apt-get update && sudo apt-get install -y ffmpeg
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
+          sudo chmod a+rx /usr/local/bin/yt-dlp
+
+      - name: Start Streaming
+        run: |
           while true; do
-            ffmpeg -re -i "https://shia.itv.ovh/hls/karbala.m3u8" \
-            -c:v libx264 -preset ultrafast -b:v 1500k -c:a aac -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
-            sleep 5
+            url=$(yt-dlp -f "best[height<=360]" -g "https://www.youtube.com/watch?v=1wSKmq25amo")
+            ffmpeg -re -i "$url" -c:v libx264 -preset ultrafast -tune zerolatency -b:v 300k -c:a aac -b:a 128k -ar 44100 -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
+            sleep 2
           done
