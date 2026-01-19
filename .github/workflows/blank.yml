@@ -1,19 +1,14 @@
-name: Karbala Fast Stream
+name: Karbala Final Fix
 
 on:
-  schedule:
-    - cron: '0 */5 * * *'
   workflow_dispatch:
 
 jobs:
   stream:
     runs-on: ubuntu-latest
     steps:
-      - name: Start
+      - name: Live
         run: |
           sudo apt-get update && sudo apt-get install -y ffmpeg
-          while true; do
-            ffmpeg -re -i "https://ssh101.com/hls/karbalatv/playlist.m3u8" \
-            -c:v libx264 -preset ultrafast -b:v 1000k -c:a aac -f flv "rtmp://a.rtmp.youtube.com/live2/bxv1-229e-2p3p-j3fb-9rfp"
-            sleep 5
-          done
+          ffmpeg -re -i "https://ssh101.com/hls/karbalatv/playlist.m3u8" \
+          -c:v libx264 -preset ultrafast -b:v 1500k -c:a aac -f flv "rtmp://a.rtmp.youtube.com/live2/bxv1-229e-2p3p-j3fb-9rfp"
