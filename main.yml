@@ -1,6 +1,8 @@
-name: Karbala Official Live
+name: Karbala Permanent Live
 
 on:
+  schedule:
+    - cron: '0 */5 * * *'  # يجدد نفسه تلقائياً كل 5 ساعات
   workflow_dispatch:
 
 jobs:
@@ -13,7 +15,10 @@ jobs:
       - name: Start Streaming
         run: |
           while true; do
-            ffmpeg -re -i "https://shia.itv.ovh/hls/karbala.m3u8" \
-            -c:v libx264 -preset ultrafast -tune zerolatency -b:v 1500k -g 60 -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
-            sleep 5
+            # بث مباشر من سيرفر العتبة مع تغيير "البصمة التقنية" للأمان
+            ffmpeg -re -i "https://ssh101.com/hls/karbalatv/playlist.m3u8" \
+            -vf "scale=1280:720,format=yuv420p" \
+            -c:v libx264 -preset ultrafast -tune zerolatency -b:v 1200k -g 60 \
+            -c:a aac -b:a 128k -ar 44100 -f flv "rtmp://a.rtmp.youtube.com/live2/bxv1-229e-2p3p-j3fb-9rfp"
+            sleep 10
           done
