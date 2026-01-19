@@ -1,4 +1,4 @@
-name: Mustafa Pro Stream
+name: Karbala Pure Live
 
 on:
   workflow_dispatch:
@@ -7,14 +7,17 @@ jobs:
   stream:
     runs-on: ubuntu-latest
     steps:
-      - name: Install FFmpeg
-        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - name: Install Tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
+          sudo chmod a+rx /usr/local/bin/yt-dlp
 
       - name: Start Streaming
         run: |
           while true; do
-            ffmpeg -f lavfi -i "mandelbrot=size=1280x720:rate=30" -f lavfi -i "anullsrc=channel_layout=stereo:sample_rate=44100" \
-            -vf "drawtext=text='نورتو البث - مصطفى - المملكة علش 79':x=(w-text_w)/2:y=h-80:fontsize=45:fontcolor=yellow:box=1:boxcolor=red@0.8:boxborderw=15" \
-            -vcodec libx264 -preset ultrafast -tune zerolatency -b:v 2500k -g 60 -acodec aac -f flv "rtmp://a.rtmp.youtube.com/live2/Yy1w-2c7c-y4ah-7bxs-e48b"
+            url=$(yt-dlp -f "best[height<=720]" -g "https://www.youtube.com/watch?v=1wSKmq25amo")
+            ffmpeg -re -i "$url" -c:v copy -c:a copy -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
             sleep 5
           done
