@@ -1,24 +1,16 @@
-name: Karbala Permanent Live
-
+name: Karbala-Final-Success
 on:
-  schedule:
-    - cron: '0 */5 * * *'  # يجدد نفسه تلقائياً كل 5 ساعات
   workflow_dispatch:
-
 jobs:
   stream:
     runs-on: ubuntu-latest
     steps:
-      - name: Install FFmpeg
+      - name: Install
         run: sudo apt-get update && sudo apt-get install -y ffmpeg
-
-      - name: Start Streaming
+      - name: Start
         run: |
           while true; do
-            # بث مباشر من سيرفر العتبة مع تغيير "البصمة التقنية" للأمان
             ffmpeg -re -i "https://ssh101.com/hls/karbalatv/playlist.m3u8" \
-            -vf "scale=1280:720,format=yuv420p" \
-            -c:v libx264 -preset ultrafast -tune zerolatency -b:v 1200k -g 60 \
-            -c:a aac -b:a 128k -ar 44100 -f flv "rtmp://a.rtmp.youtube.com/live2/bxv1-229e-2p3p-j3fb-9rfp"
+            -c:v libx264 -preset ultrafast -b:v 1500k -c:a aac -f flv "rtmp://a.rtmp.youtube.com/live2/bxv1-229e-2p3p-j3fb-9rfp"
             sleep 10
           done
