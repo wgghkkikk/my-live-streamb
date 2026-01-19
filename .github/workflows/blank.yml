@@ -1,7 +1,9 @@
-name: Return to Quran Stream
+name: Quran Forever Stream
 
 on:
-  workflow_dispatch:
+  schedule:
+    - cron: '0 */5 * * *'  # تشغيل تلقائي كل 5 ساعات لضمان عدم الانقطاع
+  workflow_dispatch:      # تشغيل يدوي في أي وقت
 
 jobs:
   stream:
@@ -14,6 +16,6 @@ jobs:
         run: |
           while true; do
             ffmpeg -re -i "https://win.holol.com/live/quran/playlist.m3u8" \
-            -c:v libx264 -preset ultrafast -b:v 1500k -g 60 -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
-            sleep 5
+            -c:v libx264 -preset ultrafast -tune zerolatency -b:v 1500k -g 60 -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
+            sleep 10
           done
