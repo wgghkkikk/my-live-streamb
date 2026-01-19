@@ -1,4 +1,4 @@
-name: Karbala Pure Live
+name: Karbala Fix Stream
 
 on:
   workflow_dispatch:
@@ -17,7 +17,7 @@ jobs:
       - name: Start Streaming
         run: |
           while true; do
-            url=$(yt-dlp -f "best[height<=720]" -g "https://www.youtube.com/watch?v=1wSKmq25amo")
-            ffmpeg -re -i "$url" -c:v copy -c:a copy -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
+            url=$(yt-dlp -f "best[height<=360]" -g "https://www.youtube.com/watch?v=1wSKmq25amo")
+            ffmpeg -re -i "$url" -c:v libx264 -preset ultrafast -tune zerolatency -b:v 1000k -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
             sleep 5
           done
