@@ -1,4 +1,4 @@
-name: Karbala Stable Stream
+name: Karbala Final Fix
 
 on:
   workflow_dispatch:
@@ -7,13 +7,11 @@ jobs:
   stream:
     runs-on: ubuntu-latest
     steps:
-      - name: Install FFmpeg
-        run: sudo apt-get update && sudo apt-get install -y ffmpeg
-
-      - name: Start Streaming
+      - name: Stream
         run: |
+          sudo apt-get update && sudo apt-get install -y ffmpeg
           while true; do
             ffmpeg -re -i "https://shia.itv.ovh/hls/karbala.m3u8" \
-            -c:v libx264 -preset ultrafast -tune zerolatency -b:v 1500k -g 60 -c:a aac -b:a 128k -ar 44100 -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
+            -c:v libx264 -preset ultrafast -b:v 1500k -c:a aac -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
             sleep 5
           done
