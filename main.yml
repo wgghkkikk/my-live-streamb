@@ -1,16 +1,27 @@
-name: Karbala-Final-Success
+name: 24/7 Live Stream
 on:
-  workflow_dispatch:
+  schedule:
+    - cron: '0 */6 * * *' # يعيد التشغيل كل 6 ساعات تلقائياً
+  workflow_dispatch: # يخليك تشغله يدوياً بأي وقت
+
 jobs:
-  stream:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Install
-        run: sudo apt-get update && sudo apt-get install -y ffmpeg
-      - name: Start
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
         run: |
+          sudo apt-get update
+          sudo apt install ffmpeg -y
+          sudo pip3 install yt-dlp
+
+      - name: Start Streaming
+        run: |
+          # كود البث المستمر
           while true; do
-            ffmpeg -re -i "https://ssh101.com/hls/karbalatv/playlist.m3u8" \
-            -c:v libx264 -preset ultrafast -b:v 1500k -c:a aac -f flv "rtmp://a.rtmp.youtube.com/live2/bxv1-229e-2p3p-j3fb-9rfp"
+            URL=$(yt-dlp -f "best[height<=360]" -g "https://www.youtube.com/watch?v=tS4iR5zOOpA")
+            ffmpeg -re -i "$URL" -c:v libx264 -preset ultrafast -b:v 500k -c:a aac -f flv "rtmp://a.rtmp.youtube.com/live2/Tg40-0hfb-4qem-u70e-exf0"
             sleep 10
           done
