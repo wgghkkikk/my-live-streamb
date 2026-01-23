@@ -21,9 +21,11 @@ jobs:
           STREAM_KEY: "q12g-s6wc-0y03-0ua5-6e6p"
           VIDEO_ID: "9cauMvs6aYQ"
         run: |
-          echo "Waiting for King..." > name.txt
+          # 1. إنشاء ملفات البداية
+          echo "بانتظار الملوك..." > name.txt
           convert -size 120x120 xc:blue -gravity center -fill white -draw "text 0,0 'Loading...'" follower.png
           
+          # 2. بوت الصور (فقط للمتابعين)
           python3 -c "
           import pytchat, requests, time, os
           chat = pytchat.create(video_id='$VIDEO_ID')
@@ -38,11 +40,11 @@ jobs:
                   except: continue
           " &
           
+          # 3. البث المباشر للفيديو المحدد فقط
           while true; do
             url=$(yt-dlp -g -f "best" "https://www.youtube.com/watch?v=$VIDEO_ID")
             ffmpeg -re -i "$url" -stream_loop -1 -i follower.png \
             -filter_complex "[1:v]scale=120:120[img];[0:v]scale=1280:720[bg];[bg][img]overlay=main_w-150:50:shortest=1[v];[v]drawtext=textfile=name.txt:x=main_w-150:y=180:fontsize=25:fontcolor=yellow:box=1:boxcolor=black@0.6" \
-            -c:v libx264 -preset veryfast -b:v 3000k -maxrate 3000k -bufsize 6000k \
-            -c:a aac -b:a 128k -ar 44100 -f flv "rtmp://a.rtmp.youtube.com/live2/$STREAM_KEY"
+            -c:v libx264 -preset veryfast -b:v 2500k -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/$STREAM_KEY"
             sleep 5
           done
