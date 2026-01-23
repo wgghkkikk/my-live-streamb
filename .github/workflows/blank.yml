@@ -1,10 +1,48 @@
-name: Karbala-Final
+name: Aloush Live Stream
+
 on:
   workflow_dispatch:
+
 jobs:
-  stream:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          sudo apt update && sudo apt install -y ffmpeg
-          ffmpeg -re -i "https://ia801509.us.archive.org/3/items/karbala_live/karbala.mp4" -c:v libx264 -preset ultrafast -b:v 1000k -c:a aac -f flv "rtmp://a.rtmp.youtube.com/live2/bxv1-229e-2p3p-j3fb-9rfp"
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Tools
+        run: |
+          sudo apt update
+          sudo apt install -y ffmpeg imagemagick
+          pip3 install yt-dlp pytchat requests
+
+      - name: Start Live Stream
+        env:
+          STREAM_KEY: "q12g-s6wc-0y03-0ua5-6e6p"
+          VIDEO_ID: "9cauMvs6aYQ"
+        run: |
+          echo "Waiting for King..." > name.txt
+          convert -size 120x120 xc:blue -gravity center -fill white -draw "text 0,0 'Loading...'" follower.png
+          
+          python3 -c "
+          import pytchat, requests, time, os
+          chat = pytchat.create(video_id='$VIDEO_ID')
+          while chat.is_alive():
+              for c in chat.get().sync_items():
+                  try:
+                      r = requests.get(c.author.imageUrl, timeout=10)
+                      with open('temp.png', 'wb') as f: f.write(r.content)
+                      os.replace('temp.png', 'follower.png')
+                      with open('name.txt', 'w') as n: n.write(c.author.name)
+                      time.sleep(15)
+                  except: continue
+          " &
+          
+          while true; do
+            url=$(yt-dlp -g -f "best" "https://www.youtube.com/watch?v=$VIDEO_ID")
+            ffmpeg -re -i "$url" -stream_loop -1 -i follower.png \
+            -filter_complex "[1:v]scale=120:120[img];[0:v]scale=1280:720[bg];[bg][img]overlay=main_w-150:50:shortest=1[v];[v]drawtext=textfile=name.txt:x=main_w-150:y=180:fontsize=25:fontcolor=yellow:box=1:boxcolor=black@0.6" \
+            -c:v libx264 -preset veryfast -b:v 3000k -maxrate 3000k -bufsize 6000k \
+            -c:a aac -b:a 128k -ar 44100 -f flv "rtmp://a.rtmp.youtube.com/live2/$STREAM_KEY"
+            sleep 5
+          done
