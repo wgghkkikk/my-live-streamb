@@ -1,28 +1,19 @@
-name: Aloush Clean Stream
-
+name: Karbala Stream Forever
 on:
+  schedule:
+    - cron: '0 */6 * * *'
   workflow_dispatch:
 
 jobs:
-  build:
+  stream:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Install FFmpeg
+      - name: Install Tools
         run: |
-          sudo apt update
-          sudo apt install -y ffmpeg
-          pip3 install yt-dlp
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          pip install yt-dlp
 
-      - name: Start Black Stream
-        env:
-          STREAM_KEY: "q12g-s6wc-0y03-0ua5-6e6p"
-          VIDEO_ID: "9cauMvs6aYQ"
+      - name: Run Stream
         run: |
-          while true; do
-            url=$(yt-dlp -g -f "best" "https://www.youtube.com/watch?v=$VIDEO_ID")
-            ffmpeg -re -i "$url" -c:v libx264 -preset fast -b:v 2000k -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/$STREAM_KEY"
-            sleep 5
-          done
+          yt-dlp -f best -g "https://www.youtube.com/live/qho4UcXvo6I" | xargs -I {} ffmpeg -re -i {} -c:v copy -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
