@@ -1,4 +1,4 @@
-name: Karbala_Live_Success
+name: Karbala_Final_Success
 on:
   workflow_dispatch:
 jobs:
@@ -10,6 +10,5 @@ jobs:
           sudo apt update && sudo apt install -y ffmpeg
           while true; do
             ffmpeg -re -i "https://restream.alkafeel.net/live/karbala/playlist.m3u8" -c:v copy -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
-            echo "فصل الاتصال.. إعادة المحاولة خلال 5 ثواني"
             sleep 5
           done
