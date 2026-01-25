@@ -1,12 +1,20 @@
-name: KarbalaLive
+name: Karbala_Live_Forever
 on:
-  workflow_dispatch:
+  schedule:
+    - cron: '0 */6 * * *' # يعيد تشغيل السيرفر تلقائياً كل 6 ساعات لضمان الاستمرارية
+  workflow_dispatch: # يتيح لك تشغيله يدوياً في أي وقت
+
 jobs:
   stream:
     runs-on: ubuntu-latest
     steps:
-      - name: Start
+      - name: Start_NonStop_Stream
         run: |
           sudo apt update && sudo apt install -y ffmpeg
           pip install yt-dlp
-          yt-dlp -f best -g "https://www.youtube.com/live/qho4UcXvo6I" | xargs -I {} ffmpeg -re -i {} -c:v copy -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
+          # حلقة تكرار (Loop) تخلي البث يرجع يشتغل فوراً إذا فصل
+          while true; do
+            yt-dlp -f best -g "https://www.youtube.com/live/qho4UcXvo6I" | xargs -I {} ffmpeg -re -i {} -c:v copy -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
+            echo "البث فصل.. جاري إعادة الاتصال بعد 5 ثواني..."
+            sleep 5
+          done
