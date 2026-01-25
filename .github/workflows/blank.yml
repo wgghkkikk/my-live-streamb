@@ -1,12 +1,16 @@
-name: Check_Stream
+name: Karbala_Live_Forever
 on:
   workflow_dispatch:
 jobs:
   stream:
     runs-on: ubuntu-latest
     steps:
-      - name: Stream_Test
+      - name: Start_Stream
         run: |
           sudo apt update && sudo apt install -y ffmpeg
           pip install yt-dlp
-          yt-dlp -f "best[height<=360]" -g "https://www.youtube.com/watch?v=9cauMvs6aYQ" | xargs -I {} ffmpeg -re -i {} -c:v libx264 -preset ultrafast -b:v 300k -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
+          while true; do
+            url=$(yt-dlp -f "best[height<=360]" -g "https://www.youtube.com/watch?v=9cauMvs6aYQ")
+            ffmpeg -re -i "$url" -c:v libx264 -preset ultrafast -tune zerolatency -b:v 300k -c:a aac -b:a 128k -ar 44100 -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
+            sleep 2
+          done
