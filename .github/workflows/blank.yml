@@ -1,13 +1,15 @@
-name: Karbala_Final_Success
+name: Live_Final_2026
 on:
   workflow_dispatch:
+
 jobs:
-  stream:
+  streaming_job:
     runs-on: ubuntu-latest
     steps:
-      - name: Start_Stream
+      - name: Install_And_Run
         run: |
-          sudo apt update && sudo apt install -y ffmpeg
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
           while true; do
             ffmpeg -re -i "https://restream.alkafeel.net/live/karbala/playlist.m3u8" -c:v copy -c:a aac -b:a 128k -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
             sleep 5
